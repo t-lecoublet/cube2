@@ -49,7 +49,7 @@ const Myfeed: React.FC<Props> = (props) => {
 
   return (
     <Layout>
-      <div className="page">
+      <div className="page">    
         <h1>My Feed</h1>
         <main>
           {props.myfeed.map((post) => (
