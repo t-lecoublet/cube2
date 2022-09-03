@@ -1,4 +1,4 @@
-// schema.prisma
+// schema.prisma info
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -8,7 +8,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// schema.prisma
+// schema.prisma table
 
 
 model Post {
@@ -54,10 +54,19 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
+  password      String?
   image         String?
   posts         Post[]
   accounts      Account[]
   sessions      Session[]
+  profile     Profile?
+}
+
+model Profile {
+  id     Int     @default(autoincrement()) @id
+  bio    String?
+  userId String     @unique
+  user   User    @relation(fields: [userId], references: [id])
 }
 
 model VerificationToken {
