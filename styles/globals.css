@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.navigation a[data-active='true'] {
+    color: #0369a1;
+    font-weight: 600;
+  }
