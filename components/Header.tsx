@@ -14,10 +14,13 @@ const Header: React.FC = () => {
 
   let sub1 = useRef();
   let subHover : boolean = false;
+  let subActive : boolean = false;
 
-  function hiddenElement(ref, bool: boolean){
+  function hiddenElement(ref){
+    console.log(`active button${subActive}`)
+    console.log(`hover profile${subHover}`)
     let thisclass = ref.current.className;
-    (bool || subHover) ? ref.current.className = thisclass.replace(" hidden",""):ref.current.className = thisclass+" hidden";
+    (subActive || subHover) ? ref.current.className = thisclass.replace(" hidden",""):ref.current.className = thisclass+" hidden";
   }
 
 
@@ -113,7 +116,7 @@ const Header: React.FC = () => {
         //   <a>Log out</a>
         // </button>
         <div className="relative">
-                <button onBlur={() => { hiddenElement(sub1, false) }} onFocus={() => { hiddenElement(sub1, true) }} type="button" className="flex w-full items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" aria-expanded="false">
+                <button onBlur={() => { subActive = false; hiddenElement(sub1) }} onFocus={() => {subActive = true; hiddenElement(sub1) }} type="button" className="flex w-full items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" aria-expanded="false">
                 <svg className='mr-2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                   <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                 </svg>
@@ -123,7 +126,7 @@ const Header: React.FC = () => {
                   </svg>
                 </button>
 
-                <div onMouseLeave={()=> {subHover = false; hiddenElement(sub1, false);}} onMouseEnter={()=> {subHover = true}} ref={sub1} className="absolute right-1 z-10 mt-3 w-screen max-w-md transform px-2 sm:px-0 hidden">
+                <div onMouseLeave={()=> {subHover = false;hiddenElement(sub1)}} onMouseEnter={()=> {subHover = true}} ref={sub1} className="absolute right-1 z-10 mt-3 w-screen max-w-md transform px-2 sm:px-0 hidden">
                   <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                     
 
