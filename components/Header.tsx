@@ -2,7 +2,8 @@
 import React, { useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import logout from '../pages/auth/signout';
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -12,10 +13,11 @@ const Header: React.FC = () => {
   const { data: session, status } = useSession();
 
   let sub1 = useRef();
+  let subHover : boolean = false;
 
   function hiddenElement(ref, bool: boolean){
     let thisclass = ref.current.className;
-    bool ? ref.current.className = thisclass.replace(" hidden",""):ref.current.className = thisclass+" hidden";
+    (bool || subHover) ? ref.current.className = thisclass.replace(" hidden",""):ref.current.className = thisclass+" hidden";
   }
 
 
@@ -52,8 +54,13 @@ const Header: React.FC = () => {
   if (!session) {
     giantRight = (
       <div className="right">
-        <Link href="/api/auth/signin">
-          <a data-active={isActive('/signup')} href="#" className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700">Login</a>
+        <Link href={{
+              pathname: "/api/auth/signin",
+              query: {
+                callbackUrl: router.pathname
+              }
+          }}>
+          <a className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700">Login</a>
         </Link>
       </div>
       
@@ -106,14 +113,17 @@ const Header: React.FC = () => {
         //   <a>Log out</a>
         // </button>
         <div className="relative">
-                <button onBlur={() => { hiddenElement(sub1, false) }} onFocus={() => { hiddenElement(sub1, true) }} type="button" className="text-gray-500 group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" aria-expanded="false">
+                <button onBlur={() => { hiddenElement(sub1, false) }} onFocus={() => { hiddenElement(sub1, true) }} type="button" className="flex w-full items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" aria-expanded="false">
+                <svg className='mr-2' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                </svg>
                   <span>Profile</span>
-                  <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#ffffff" aria-hidden="true">
                     <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
                   </svg>
                 </button>
 
-                <div ref={sub1} className="absolute right-1 z-10 mt-3 w-screen max-w-md transform px-2 sm:px-0 hidden">
+                <div onMouseLeave={()=> {subHover = false; hiddenElement(sub1, false);}} onMouseEnter={()=> {subHover = true}} ref={sub1} className="absolute right-1 z-10 mt-3 w-screen max-w-md transform px-2 sm:px-0 hidden">
                   <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                     
 
@@ -132,14 +142,48 @@ const Header: React.FC = () => {
 
                     <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
                       <a href="#" className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50">
-                        <svg className="h-6 w-6 flex-shrink-0 text-sky-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M16.712 4.33a9.027 9.027 0 011.652 1.306c.51.51.944 1.064 1.306 1.652M16.712 4.33l-3.448 4.138m3.448-4.138a9.014 9.014 0 00-9.424 0M19.67 7.288l-4.138 3.448m4.138-3.448a9.014 9.014 0 010 9.424m-4.138-5.976a3.736 3.736 0 00-.88-1.388 3.737 3.737 0 00-1.388-.88m2.268 2.268a3.765 3.765 0 010 2.528m-2.268-4.796a3.765 3.765 0 00-2.528 0m4.796 4.796c-.181.506-.475.982-.88 1.388a3.736 3.736 0 01-1.388.88m2.268-2.268l4.138 3.448m0 0a9.027 9.027 0 01-1.306 1.652c-.51.51-1.064.944-1.652 1.306m0 0l-3.448-4.138m3.448 4.138a9.014 9.014 0 01-9.424 0m5.976-4.138a3.765 3.765 0 01-2.528 0m0 0a3.736 3.736 0 01-1.388-.88 3.737 3.737 0 01-.88-1.388m2.268 2.268L7.288 19.67m0 0a9.024 9.024 0 01-1.652-1.306 9.027 9.027 0 01-1.306-1.652m0 0l4.138-3.448M4.33 16.712a9.014 9.014 0 010-9.424m4.138 5.976a3.765 3.765 0 010-2.528m0 0c.181-.506.475-.982.88-1.388a3.736 3.736 0 011.388-.88m-2.268 2.268L4.33 7.288m6.406 1.18L7.288 4.33m0 0a9.024 9.024 0 00-1.652 1.306A9.025 9.025 0 004.33 7.288" />
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="h-6 w-6 flex-shrink-0 text-sky-600" viewBox="0 0 16 16">
+                          <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
+                          <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                         </svg>
                         <div className="ml-4">
                           <p className="text-base font-medium text-gray-900">Profile</p>
-                          <p className="mt-1 text-sm text-gray-500">Get all of your questions answered in our forums or contact support.</p>
+                          <p className="mt-1 text-sm text-gray-500">Edit and custom your profile : custom url, name...</p>
                         </div>
                       </a>
+                      
+                      <Link href={"/create"}>
+                        <a href="#" className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="h-6 w-6 flex-shrink-0 text-sky-600" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                          </svg>
+                          <div className="ml-4">
+                            <p className="text-base font-medium text-gray-900">Tweets</p>
+                            <p className="mt-1 text-sm text-gray-500">Create, store and share your tweets</p>
+                          </div>
+                        </a>
+                      </Link>
+                      {
+                        /*
+                        
+                      <Link href={{
+                            pathname: "/api/auth/signout",
+                            query: {
+                              callbackUrl: router.basePath
+                            }
+                        }}>
+                        <a className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700">
+                          LogOut
+                        </a>
+                      </Link>
+                        */
+                      }
+                        <a onClick={()=> {let callbackUrl:any = router.pathname;logout(callbackUrl)}} className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700">
+                          LogOut
+                        </a>
+                      
                     </div>
                     <div className="bg-gray-50 px-5 py-5 sm:px-8 sm:py-8">
                       <div>
@@ -165,8 +209,6 @@ const Header: React.FC = () => {
 
   return (
     <nav>
-
-
       <div className="relative bg-white shadow shadow-slate-300">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="flex items-center justify-between md:justify-start md:space-x-10">
@@ -191,7 +233,6 @@ const Header: React.FC = () => {
               </button>
             </div>
             <nav className="hidden space-x-10 md:flex navigation">
-
 
               {navigation.map((el) => (
                 <Link key={el.title} href={el.href}>

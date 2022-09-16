@@ -10,13 +10,12 @@ export default async function handle(
   if (req.method === "POST") {
     const emailDoesNotExist : boolean = await checkEmail(res, req);
     if(emailDoesNotExist){
-        console.log()
        await handlePOST(res, req); 
     }else{
-        console.log("not exist")
-        res.statusCode = 409;
-        const body : string = JSON.stringify({message:"Email already used"})
-        res.json(body);
+        
+        const body= JSON.stringify({message:"Email already used"});
+        //res.setHeader('Content-Type', 'application/json');
+        res.status(409).json(body)
     }
     
   } else {
