@@ -70,6 +70,14 @@ const options = {
   pages: {
     signIn: "/auth/signin",
     signOut: "/auth/signout",
+  },
+  callbacks: {
+    async session({ session, token, user }) {
+      // Send properties to the client, like an access_token from a provider.
+      session.userId = user.id
+      session.link = user.customLink
+      return session
+    }
   }
   // session: { strategy: "jwt" },
 };

@@ -73,7 +73,7 @@ model User {
   sessions      Session[]
   bio           String?
   customImage   String?
-  customLink    String?
+  customLink    String?   @unique @default(cuid())
   customName    String?
   //profile     Profile?
 }
