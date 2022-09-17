@@ -113,24 +113,33 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   }
 
   function getPartialProfile(user,setContent){
-    
+    setContent((
+      <div className="max-w-lg mx-auto my-10 bg-white p-8 rounded-xl shadow shadow-slate-300">
+      <div className="relative grid gap-6 px-5 py-6 sm:gap-8 sm:p-8">
+        <div className="h-full flex items-center">
+          <img alt="team" className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={user.customImage ??user.image} />
+          <div className="flex-grow">
+            <h2 className="text-gray-900 title-font font-medium">{user.customName ?? user.name}</h2>
+            <p className="text-gray-500">{user.bio?? "Not Bio yet"}</p>
+          </div>
+        </div>
+      </div>
+      </div>
+
+    ));
   }
 
 const Profile: React.FC = (props) => {
     const [content,setContent] = useState(null)
     const [user,setUser] = useState(props.user)
-    if(!props.user){
-      return(
-          <div>
-          It turns out that this profile does not exist
-          </div>
-          )
-    }
+    const router = useRouter()
     const { data: session } = useSession();
 
     
     useEffect(() => {
-      if(session && session.link == user.customLink){
+      if(!user){
+        router.push('/404')
+      }else if(session && session.link == user.customLink){
         getFullProfile(session.userId,setContent);
 
       }else {
