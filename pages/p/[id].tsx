@@ -74,45 +74,70 @@ const Post: React.FC<PostProps> = (props) => {
   if (!props.published) {
     title = `${title} (Draft)`;
   }
-
+  const author = props.author;
   return (
     <Layout>
-      <div>
-        <h2>{title}</h2>
-        <p>By {props?.author?.name || 'Website Owner'}</p>
-        <ReactMarkdown children={props.content} />
-        {
-          !props.published && userHasValidSession && postBelongsToUser && (
-            <button onClick={() => publishPost(props.id)}>Publish</button>
-          )
-        }
-        {
-          userHasValidSession && postBelongsToUser && (
-            <button onClick={() => deletePost(props.id)}>Delete</button>
-          )
-        }
+      
+      <div className="flex flex-col bg-white shadow-lg rounded-lg mx-2 md:mx-auto w-full my-4 max-w-md md:max-w-2xl ">
+      <div className="flex flex-col items-start px-4 py-6 w-full">
+        <h2 className="text-lg font-semibold text-gray-900 -mt-1">{props.title} </h2>
+        <p className="mt-3 text-gray-900">
+                {props.content}
+        </p>
       </div>
-      <style jsx>{`
-        .page {
-          background: var(--geist-background);
-          padding: 2rem;
-        }
+        <div className="flex items-start px-4 py-6 w-full">
+            <img className="w-12 h-12 rounded-full object-cover mr-4 shadow" src={author.customImage??author.image} alt="avatar" />
+            <div className="w-full">
+              <div className="flex items-center justify-between w-full">
+                <a></a>
+                <small className="text-sm text-gray-700">22h ago</small>
+              </div>
+              <p className="text-gray-700">By {author.customName??author.name}</p>
+              
+            </div>
 
-        .actions {
-          margin-top: 2rem;
-        }
 
-        button {
-          background: #ececec;
-          border: 0;
-          border-radius: 0.125rem;
-          padding: 1rem 2rem;
-        }
 
-        button + button {
-          margin-left: 1rem;
+        
+        </div>
+        <div className="flex items-start px-4 py-6 w-full">
+        {
+            !props.published && userHasValidSession && postBelongsToUser && (
+              <button onClick={() => publishPost(props.id)}
+              className="flex w-1/4 items-center justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 "
+              >Publish</button>
+            )
+          }
+          {
+            userHasValidSession && postBelongsToUser && (
+              <button onClick={() => deletePost(props.id)}
+              className="flex w-1/4 items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 "
+              >Delete</button>
+            )
+          }
+        </div>
+
+      </div>
+        {
+          userHasValidSession && props.published &&(
+            <div className="flex flex-col px-4 py-6 bg-white shadow-lg rounded-lg mx-2 md:mx-auto w-full my-4 max-w-md md:max-w-2xl ">
+            <label htmlFor="content">
+              <p className="font-medium text-slate-700 pb-2 text-lg font-semibold text-gray-900 -mt-1"> Comment</p>
+              <input
+                  type="text"
+                  id="content"
+                  name="content"
+                  title="Comment section"
+                  pattern="[a-zA-Z]{2,2048}"
+                  className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter comment" />
+            </label>
+            <button onClick={() => {}}
+              className="flex w-full items-end justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 "
+              >Post comment</button>
+            </div>
+
+          )
         }
-      `}</style>
     </Layout>
   );
 };
