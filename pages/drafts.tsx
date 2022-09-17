@@ -27,7 +27,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     },
     include: {
       author: {
-        select: { name: true },
+        select: { 
+          name: true,
+          email: true,
+          image: true,
+          customImage: true,
+          customName: true
+        },
       },
     },
   });
@@ -56,7 +62,6 @@ const Drafts: React.FC<Props> = (props) => {
   if (!session) {
     return (
       <Layout>
-        <h1>My Drafts</h1>
         <div>You need to be authenticated to view this page.</div>
       </Layout>
     );
@@ -65,7 +70,6 @@ const Drafts: React.FC<Props> = (props) => {
   return (
     <Layout>
       <div className="page">
-        <h1>My Drafts</h1>
         <main>
           {props.drafts.map((post) => (
             <div key={post.id} className="post">
@@ -74,20 +78,6 @@ const Drafts: React.FC<Props> = (props) => {
           ))}
         </main>
       </div>
-      <style jsx>{`
-        .post {
-          background: var(--geist-background);
-          transition: box-shadow 0.1s ease-in;
-        }
-
-        .post:hover {
-          box-shadow: 1px 1px 3px #aaa;
-        }
-
-        .post + .post {
-          margin-top: 2rem;
-        }
-      `}</style>
     </Layout>
   );
 };
