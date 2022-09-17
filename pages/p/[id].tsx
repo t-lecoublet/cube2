@@ -80,11 +80,11 @@ async function createComment(id: string,content: string): Promise<void> {
         body: JSON.stringify(body),
       });
       const result = await res.json();
-      await Router.push(Router.asPath);
+
     } catch (error) {
       console.error(error);
     }
-    Router.push('/');
+    await Router.push(Router.asPath);
   }
 }
 
@@ -133,18 +133,27 @@ const Post: React.FC<PostProps> = (props) => {
         <div className="flex items-start px-4 py-6 w-full">
         {
             !props.published && userHasValidSession && postBelongsToUser && (
+              <div>
               <button onClick={() => publishPost(props.id)}
               className="flex w-1/4 items-center justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 "
               >Publish</button>
+              <br />
+              <div className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
+                <p className="font-bold">Be Warned</p>
+                <p>A published twiit, after having been commented, cannot be deleted anymore!</p>
+              </div>
+              </div>
+
             )
           }
           {
-            userHasValidSession && postBelongsToUser && (
+            userHasValidSession && postBelongsToUser && (props.comments.length < 1)&&(
               <button onClick={() => deletePost(props.id)}
               className="flex w-1/4 items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 "
               >Delete</button>
             )
           }
+
         </div>
 
       </div>
@@ -171,11 +180,18 @@ const Post: React.FC<PostProps> = (props) => {
         }
         {
            props.comments.map(el=>
-             <div key={el.id} className="flex flex-col items-start px-4 py-6 w-full">
-               <h2 className="text-lg font-semibold text-gray-900 -mt-1">{props.title} </h2>
-               <p className="mt-3 text-gray-900">
-                 {el.content}
-               </p>
+            <div key={el.id} className="flex flex-col bg-white shadow-lg rounded-lg mx-2 md:mx-auto w-full my-4 max-w-md md:max-w-2xl ">
+               
+               <div className="flex items-start px-4 py-6 w-full">
+               <img className="w-12 h-12 rounded-full object-cover mr-4 shadow" src={author.customImage??author.image} alt="avatar" />
+                <div className="w-full">
+                  <p className="text-gray-700">{el.author.customName??el.author.name}</p>
+                  <p className="mt-3 text-gray-700 text-sm">
+                      {el.content}
+                  </p>
+                </div>
+               </div>
+
              </div>
        )
         }
