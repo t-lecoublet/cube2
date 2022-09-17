@@ -171,41 +171,22 @@ const Header: React.FC = () => {
                           </div>
                         </a>
                       </Link>
-                      {
-                        /*
-                        
-                      <Link href={{
-                            pathname: "/api/auth/signout",
-                            query: {
-                              callbackUrl: router.basePath
-                            }
-                        }}>
-                        <a className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700">
-                          LogOut
-                        </a>
-                      </Link>
-                        */
-                      }
+             
                         <a onClick={()=> {let callbackUrl:any = router.pathname;logout(callbackUrl)}} className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700">
                           LogOut
                         </a>
                       
                     </div>
                     <div className="bg-gray-50 px-5 py-5 sm:px-8 sm:py-8">
-                      <div>
+                      {/* <div>
                         <h3 className="text-base font-medium text-gray-500">Recent Posts</h3>
                         <ul role="list" className="mt-4 space-y-4">
                           <li className="truncate text-base">
                             <a href="#" className="font-medium text-gray-900 hover:text-gray-700">Boost your conversion rate</a>
                           </li>
                         </ul>
-                      </div>
-                      <div className="mt-5 text-sm">
-                        <a href="#" className="font-medium text-sky-600 hover:text-sky-500">
-                          View all posts
-                          <span aria-hidden="true"> &rarr;</span>
-                        </a>
-                      </div>
+                      </div> */}
+                      <a>:3</a>
                     </div>
                   </div>
                 </div>

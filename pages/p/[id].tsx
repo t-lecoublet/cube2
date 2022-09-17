@@ -1,6 +1,6 @@
 // pages/p/[id].tsx
 
-import React from 'react';
+import React, { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import ReactMarkdown from 'react-markdown';
 import Router from 'next/router';
@@ -26,8 +26,16 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
       comments : {
         select: {
-          author: true,
-          content: true
+          author: {
+            select: { 
+              name: true,
+              email: true,
+              image: true,
+              customImage: true,
+              customName: true
+          }},
+          content: true,
+          id:true
         }
       }
     },
@@ -62,8 +70,27 @@ async function deletePost(id: string): Promise<void> {
   Router.push('/');
 }
 
+async function createComment(id: string,content: string): Promise<void> {
+  if(content && content.length > 0){
+    try {
+      const body = { id, content };
+      const res = await fetch('/api/comment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const result = await res.json();
+      await Router.push(Router.asPath);
+    } catch (error) {
+      console.error(error);
+    }
+    Router.push('/');
+  }
+}
+
 
 const Post: React.FC<PostProps> = (props) => {
+  const [comment,setComment]= useState('');
   const { data: session, status } = useSession();
   if (status === 'loading') {
     return <div>Authenticating ...</div>;
@@ -75,6 +102,9 @@ const Post: React.FC<PostProps> = (props) => {
     title = `${title} (Draft)`;
   }
   const author = props.author;
+
+
+
   return (
     <Layout>
       
@@ -124,6 +154,7 @@ const Post: React.FC<PostProps> = (props) => {
             <label htmlFor="content">
               <p className="font-medium text-slate-700 pb-2 text-lg font-semibold text-gray-900 -mt-1"> Comment</p>
               <input
+                  onChange={(e)=>setComment(e.target.value)}
                   type="text"
                   id="content"
                   name="content"
@@ -131,12 +162,22 @@ const Post: React.FC<PostProps> = (props) => {
                   pattern="[a-zA-Z]{2,2048}"
                   className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter comment" />
             </label>
-            <button onClick={() => {}}
+            <button onClick={() => {createComment(props.id,comment)}}
               className="flex w-full items-end justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700 "
               >Post comment</button>
             </div>
 
           )
+        }
+        {
+           props.comments.map(el=>
+             <div key={el.id} className="flex flex-col items-start px-4 py-6 w-full">
+               <h2 className="text-lg font-semibold text-gray-900 -mt-1">{props.title} </h2>
+               <p className="mt-3 text-gray-900">
+                 {el.content}
+               </p>
+             </div>
+       )
         }
     </Layout>
   );

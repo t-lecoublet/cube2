@@ -7,15 +7,20 @@ import prisma from '../../../lib/prisma';
 // Required fields in body: title
 // Optional fields in body: content
 export default async function handle(req, res) {
-  const { postId, content } = req.body;
+  const { id, content } = req.body;
 
   const session = await getSession({ req });
   const result = await prisma.comment.create({
     data: {
       content: content,
       author: { connect: { email: session?.user?.email } },
-      post: { connect: { id: postId}}
+      post: { connect: { id: id}}
     },
   });
-  res.json(result);
+  if(result){
+    res.status(209).json(result);
+  }else {
+    res.status(500).json({message: "Server Error"})
+  }
+  
 }
