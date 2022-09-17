@@ -6,28 +6,30 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const id = req.query.id;
+
+  const id = req.query.id.toString();
+
   if (req.method === "GET") {
-    handleGET(id, res);
+
+    const user = await prisma.user.findUnique({
+      where: { id: id },
+    });
+    console.log("my user",user)
+    res.status(200).json(user);
+
   } else if (req.method === "POST") {
+
     handlePOST(id, res, req);
+
   } else {
+
     throw new Error(
       `The HTTP ${req.method} method is not supported at this route.`,
     );
   }
 }
 
-// GET /api/user/:id
-async function handleGET(userId, res) {
-  console.log("on passe",userId)
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-  });
-  console.log(user)
 
-  res.status(201).json(user);
-}
 
 // GET /api/user/:id
 async function handlePOST(userId, res, req) {
