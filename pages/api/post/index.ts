@@ -15,6 +15,7 @@ export default async function handle(req, res) {
       title: title,
       content: content,
       author: { connect: { email: session?.user?.email } },
+      lastModified: (new Date()).toISOString()
     },
   });
   res.json(result);

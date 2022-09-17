@@ -20,6 +20,16 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
     },
   });
+  // UNserializable dateTime object in SRR, idk why ¯\_(ツ)_/¯
+  let date = post.lastModified.toISOString();
+  delete post.lastModified;
+  Object.assign(post,{lastModified : date})
+  if(post.publishedDate){
+    date = post.publishedDate.toISOString();
+    delete post.publishedDate;
+    Object.assign(post,{publishedDate : date})
+  }
+
   return {
     props: post,
   };

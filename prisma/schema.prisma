@@ -12,12 +12,23 @@ generator client {
 
 
 model Post {
+  id            String  @id @default(cuid())
+  title         String
+  content       String?
+  published     Boolean @default(false)
+  author        User?   @relation(fields: [authorId], references: [id])
+  authorId      String?
+  comments      Comment[]
+  lastModified  DateTime?
+  publishedDate DateTime?
+}
+
+model Comment {
   id        String  @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean @default(false)
   author    User?   @relation(fields: [authorId], references: [id])
   authorId  String?
+  post      Post?   @relation(fields: [postId], references: [id])
+  postId    String?
 }
 
 model Account {
@@ -57,17 +68,22 @@ model User {
   password      String?
   image         String?
   posts         Post[]
+  comments      Comment[]
   accounts      Account[]
   sessions      Session[]
-  profile     Profile?
+  bio           String?
+  customImage   String?
+  customLink    String?
+  customName    String?
+  //profile     Profile?
 }
 
-model Profile {
-  id     Int     @default(autoincrement()) @id
-  bio    String?
-  userId String     @unique
-  user   User    @relation(fields: [userId], references: [id])
-}
+// model Profile {
+//   id     Int     @default(autoincrement()) @id
+//   bio    String?
+//   userId String     @unique
+//   user   User    @relation(fields: [userId], references: [id])
+// }
 
 model VerificationToken {
   id         Int      @id @default(autoincrement())

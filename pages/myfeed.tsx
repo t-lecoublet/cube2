@@ -16,6 +16,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   }
 
   const myfeed = await prisma.post.findMany({
+    orderBy: [
+      {
+        publishedDate: 'desc',
+      },
+    ],
     where: {
       author: { email: session.user.email },
       published: true,
@@ -26,6 +31,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       },
     },
   });
+  serializing(myfeed)
   return {
     props: { myfeed },
   };
@@ -34,6 +40,15 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 type Props = {
   myfeed: PostProps[];
 };
+
+function serializing(el){
+  el.map(subel => {
+    let date = subel.publishedDate.toISOString();
+    delete subel.lastModified;
+    delete subel.publishedDate;
+    Object.assign(subel,{publishedDate : date})
+  })
+}
 
 const Myfeed: React.FC<Props> = (props) => {
   const { data: session } = useSession();

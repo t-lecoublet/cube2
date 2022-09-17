@@ -70,6 +70,6 @@ const options = {
   pages: {
     signIn: "/auth/signin",
     signOut: "/auth/signout",
-  },
-  session: { strategy: "jwt" },
+  }
+  // session: { strategy: "jwt" },
 };
