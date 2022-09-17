@@ -25,10 +25,11 @@ model Post {
 
 model Comment {
   id        String  @id @default(cuid())
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
-  post      Post?   @relation(fields: [postId], references: [id])
-  postId    String?
+  author    User    @relation(fields: [authorId], references: [id])
+  authorId  String
+  post      Post    @relation(fields: [postId], references: [id])
+  postId    String
+  content   String
 }
 
 model Account {

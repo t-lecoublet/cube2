@@ -16,8 +16,20 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     },
     include: {
       author: {
-        select: { name: true, email: true },
+        select: { 
+          name: true,
+          email: true,
+          image: true,
+          customImage: true,
+          customName: true
+        },
       },
+      comments : {
+        select: {
+          author: true,
+          content: true
+        }
+      }
     },
   });
   // UNserializable dateTime object in SRR, idk why ¯\_(ツ)_/¯
@@ -41,7 +53,7 @@ async function publishPost(id: string): Promise<void> {
   });
   await Router.push('/');
 }
-// pages/p/[id].tsx
+
 
 async function deletePost(id: string): Promise<void> {
   await fetch(`/api/post/${id}`, {
