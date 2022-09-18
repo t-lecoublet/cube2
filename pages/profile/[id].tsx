@@ -54,7 +54,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
       });
-      console.log(await res.json())
+      await res.json()
 
       } catch (error) {
           console.error(error);
@@ -70,15 +70,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
         </Link>
         <h1 className="w-full text-4xl font-medium text-center">Profile editing</h1>
-        {/* <div className="relative grid gap-6 px-5 py-6 sm:gap-8 sm:p-8">
-          <div className="h-full flex items-center">
-            <img alt="team" className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={user.image} />
-            <div className="flex-grow">
-              <h2 className="text-gray-900 title-font font-medium">{user.name}</h2>
-              <p className="text-gray-500">{user.email}</p>
-            </div>
-          </div>
-        </div> */}
+
         <form onSubmit={handleSubmit} className="my-10">
                 <div className="flex flex-col space-y-5">
                     <label htmlFor="customLink">
@@ -139,7 +131,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     ))
     return user;
 
-    //await Router.push('/');
   }
 
   function getPartialProfile(user,setContent){
@@ -164,7 +155,6 @@ const Profile: React.FC = (props) => {
     const [user,setUser] = useState(props.user)
     const router = useRouter()
     const { data: session } = useSession();
-    console.log(session)
     
     useEffect(() => {
       if(!user){

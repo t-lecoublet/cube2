@@ -1,11 +1,10 @@
-// pages/api/auth/[...nextauth].ts
+
 
 import { NextApiHandler } from 'next';
 import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvieder from 'next-auth/providers/google'
-// import EmailProvider from 'next-auth/providers/email';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import prisma from '../../../lib/prisma';
 
@@ -15,13 +14,8 @@ export default authHandler;
 const options = {
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. 'Sign in with...')
       id: "credentials",
       name: "credentials",
-      // The credentials is used to generate a suitable form on the sign in page.
-      // You can specify whatever fields you are expecting to be submitted.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
         username: {type: "text"},
         password: { type: "password" }
@@ -67,11 +61,9 @@ const options = {
   },
   callbacks: {
     async session({ session, token, user }) {
-      // Send properties to the client, like an access_token from a provider.
       session.userId = user.id
       session.link = user.customLink
       return session
     }
   }
-  // session: { strategy: "jwt" },
 };

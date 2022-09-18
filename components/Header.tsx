@@ -1,9 +1,8 @@
-// Header.tsx
+
 import React, { useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
-import logout from '../pages/auth/signout';
+import { signOut, useSession } from 'next-auth/react';
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -17,8 +16,7 @@ const Header: React.FC = () => {
   let subActive : boolean = false;
 
   function hiddenElement(ref){
-    console.log(`active button${subActive}`)
-    console.log(`hover profile${subHover}`)
+
     let thisclass = ref.current.className;
     (subActive || subHover) ? ref.current.className = thisclass.replace(" hidden",""):ref.current.className = thisclass+" hidden";
   }
@@ -172,7 +170,7 @@ const Header: React.FC = () => {
                         </a>
                       </Link>
              
-                        <a onClick={()=> {let callbackUrl:any = router.asPath;logout(callbackUrl)}} className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700">
+                        <a onClick={()=> {signOut();}} className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700">
                           LogOut
                         </a>
                       

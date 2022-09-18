@@ -1,8 +1,6 @@
-// pages/p/[id].tsx
-
 import React, { useState } from 'react';
 import { GetServerSideProps } from 'next';
-import ReactMarkdown from 'react-markdown';
+
 import Router from 'next/router';
 import Layout from '../../components/Layout';
 import { PostProps } from '../../components/Post';
@@ -122,7 +120,7 @@ const Post: React.FC<PostProps> = (props) => {
             <div className="w-full">
               <div className="flex items-center justify-between w-full">
                 <a></a>
-                <small className="text-sm text-gray-700">22h ago</small>
+                <small className="text-sm text-gray-700">{props.publishedDate?.toString().split('T')[0]}</small>
               </div>
               <p className="text-gray-700">By {author.customName??author.name}</p>
               
@@ -142,7 +140,7 @@ const Post: React.FC<PostProps> = (props) => {
               <br />
               <div className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
                 <p className="font-bold">Be Warned</p>
-                <p>A published twiit, after having been commented, cannot be deleted anymore!</p>
+                <p>A published tweet, after having been commented, cannot be deleted anymore!</p>
               </div>
               </div>
 
@@ -181,7 +179,7 @@ const Post: React.FC<PostProps> = (props) => {
           )
         }
         {
-          props.comments && (
+          (props.comments.length>0) && (
             <div className='flex flex-col mx-2 md:mx-auto w-full my-4 max-w-md md:max-w-2xl '>
               <h2 className='text-lg font-semibold text-gray-900'>Comments:</h2>
             </div>

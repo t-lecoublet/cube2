@@ -1,8 +1,6 @@
-// pages/api/post/[id].ts
-
 import prisma from '../../../lib/prisma';
 
-// DELETE /api/post/:id
+
 export default async function handle(req, res) {
   const postId = req.query.id;
   if (req.method === 'DELETE') {

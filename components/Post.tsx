@@ -1,6 +1,5 @@
 import React from "react";
 import Router from "next/router";
-import internal from "stream";
 
 export type PostProps = {
   id: string;
@@ -14,14 +13,14 @@ export type PostProps = {
   } | null;
   content: string;
   published: boolean;
-  publishedDate: Date;
+  publishedDate: Date | undefined;
   lastModified: Date;
   comments: any;
 };
 
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
   const user = post.author;
-  console.log(user)
+
   return (
     <div onClick={() => Router.push("/p/[id]", `/p/${post.id}`)} className="transition duration-500 cursor-pointer hover:scale-105 flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-4 max-w-md md:max-w-2xl ">
         <div className="flex items-start px-4 py-6 w-full">
@@ -29,7 +28,7 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
           <div className="w-full">
             <div className="flex items-center justify-between w-full">
               <h2 className="text-lg font-semibold text-gray-900 -mt-1">{post.title} </h2>
-              <small className="text-sm text-gray-700">22h ago</small>
+              <small className="text-sm text-gray-700">{post.publishedDate?.toString().split('T')[0]}</small>
             </div>
             <p className="text-gray-700">By {user.customName??user.name}</p>
             <p className="mt-3 text-gray-700 text-sm">

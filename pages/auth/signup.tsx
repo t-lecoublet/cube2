@@ -47,14 +47,13 @@ export default function SignupCard() {
 
 
         try {
-        console.log(`POSTing ${JSON.stringify(body, null, 2)}`);
+
         const res = await fetch(`/api/user/create`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         });
         if(res.status == 201){
-            console.log(res)
         /*
             router.push(
                 `signin${
@@ -64,7 +63,7 @@ export default function SignupCard() {
                 }`,
             );*/
         }else {
-            console.log(await res.json())
+            await res.json()
             
         }
 

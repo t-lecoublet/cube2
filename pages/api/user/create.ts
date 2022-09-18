@@ -14,7 +14,6 @@ export default async function handle(
     }else{
         
         const body= JSON.stringify({message:"Email already used"});
-        //res.setHeader('Content-Type', 'application/json');
         res.status(409).json(body)
     }
     
@@ -30,13 +29,12 @@ const hashPassword = (password: string) => {
   return sha256(password).toString();
 };
 
-// POST /api/user
+
 async function handlePOST(res, req) {
 
   const user = await prisma.user.create({
     data: { ...req.body, password: hashPassword(req.body.password) },
   });
-  console.log(user)
   res.json(user);
 }
 
