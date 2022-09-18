@@ -67,11 +67,11 @@ export default function signin() {
             <div className="flex flex-col space-y-5">
                 <label htmlFor="email">
                     <p className="font-medium text-slate-700 pb-2">Email address</p>
-                    <input defaultValue={"test@domain.ex"} id="email" name="email" type="email" className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter email address"/>
+                    <input id="email" name="email" type="email" className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter email address"/>
                 </label>
                 <label htmlFor="password">
                     <p className="font-medium text-slate-700 pb-2">Password</p>
-                    <input defaultValue={"3NDQRmKnYmxMfCE"} id="password" name="password" type="password" className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter your password"/>
+                    <input id="password" name="password" type="password" className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter your password"/>
                 </label>
 
                 <button className="w-full py-3 font-medium text-white bg-sky-600 hover:bg-sky-500 rounded-lg border-sky-500 hover:shadow inline-flex space-x-2 items-center justify-center">
