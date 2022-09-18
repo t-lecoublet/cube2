@@ -9,7 +9,7 @@ import Link from 'next/link';
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const user = await prisma.user.findUnique({
         where: {
-          customLink: params?.id,
+          customLink: params?.id.toString(),
         },
         select: {
             name: true,
@@ -150,7 +150,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     ));
   }
 
-const Profile: React.FC = (props) => {
+const Profile = (props) => {
     const [content,setContent] = useState(null)
     const [user,setUser] = useState(props.user)
     const router = useRouter()
