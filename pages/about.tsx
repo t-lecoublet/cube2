@@ -16,10 +16,10 @@ const About: React.FC = () => {
   >>
   **Les fonctionnalités minimales requises sont :**
   - >> ㅤ -la connexion et la déconnexion ✓
-  - >> ㅤ -la création de votre profil avec votre propre URL / nom d'utilisateur
+  - >> ㅤ -la création de votre profil avec votre propre URL / nom d'utilisateur ✓
   - >> ㅤ -permettre à l'utilisateur d'écrire des tweets ✓
   - >> ㅤ -afficher les tweets ✓
-  - >> ㅤ -permettre aux utilisateurs de répondre aux tweets
+  - >> ㅤ -permettre aux utilisateurs de répondre aux tweets ✓
   - >> ㅤ -supprimer vos propres tweets ✓
   >> ㅤ 
   >>
