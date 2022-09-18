@@ -31,6 +31,7 @@ export const getStaticProps: GetStaticProps = async () => {
           customName: true
         },
       },
+      comments : true
     },
   });
   serializing(feed)

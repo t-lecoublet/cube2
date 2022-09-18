@@ -5,28 +5,28 @@ import Link from "next/link";
 
 export default function signin() {
     const router = useRouter();
-  return (/*
-    <div>
-      <h1 classNameName="text-3xl font-bold underline">
-        signin
-      </h1>
-        <ul>
-            <li onClick={() =>
-                signIn("github", {
-                  callbackUrl: router.query.callbackUrl.toString(),
-                })}>
-                GITHUB
-            </li>
-            <li onClick={() =>
-                signIn("google", {
-                  callbackUrl: router.query.callbackUrl.toString(),
-                })}>
-                GOOGLE
-            </li>
-        </ul>
-        
-    </div>*/
+    const handleSubmit = async (event) => {
 
+      event.preventDefault()
+
+      const body = {
+        email: event.target.email.value,
+        password: event.target.password.value
+      }/*
+      try {
+        let res = await signIn("credentials", {
+          ...body
+        });
+      } catch (error) {
+        console.error(error);
+      }*/
+      alert("Credntials auth not actually workibg with prisma adapter")
+  
+    }
+
+
+
+  return (
 
     <div className="max-w-lg mx-auto my-10 bg-white p-8 rounded-xl shadow shadow-slate-300">
         <Link href="/">
@@ -60,7 +60,7 @@ export default function signin() {
                          <p className="text-base font-medium leading-4 px-2.5 text-gray-400">OR</p>
                          <hr className="w-full bg-gray-400  "/>
         </div>
-        <form action="" className="my-10">
+        <form onSubmit={handleSubmit} className="my-10">
             <div className="flex flex-col space-y-5">
                 <label htmlFor="email">
                     <p className="font-medium text-slate-700 pb-2">Email address</p>

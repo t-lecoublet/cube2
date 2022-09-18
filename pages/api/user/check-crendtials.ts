@@ -23,8 +23,10 @@ const hashPassword = (password: string) => {
 
 // POST /api/user
 async function handlePOST(res, req) {
+  console.log("ca1")
+  console.log(req)
   const user = await prisma.user.findUnique({
-    where: { email: req.body.username },
+    where: { email: req.body.email },
     select: {
       id: true,
       name: true,
@@ -33,11 +35,13 @@ async function handlePOST(res, req) {
       password: true,
     },
   });
+  console.log("ca2")
+
   if (user && user.password == hashPassword(req.body.password)) {
-    //logger.debug("password correct");
-    //res.json(omit(user, "password"));
+  console.log("ca3")
+
+    res.status(200).json(user);
   } else {
-    //logger.debug("incorrect credentials");
     res.status(400).end("Invalid credentials");
   }
 }

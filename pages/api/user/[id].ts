@@ -19,7 +19,11 @@ export default async function handle(
 
   } else if (req.method === "POST") {
 
-    handlePOST(id, res, req);
+    const user = await prisma.user.update({
+      where: { id: id },
+      data: { ...req.body },
+    });
+    return res.status(209).json(user);
 
   } else {
 
@@ -31,13 +35,5 @@ export default async function handle(
 
 
 
-// GET /api/user/:id
-async function handlePOST(userId, res, req) {
-  const user = await prisma.user.update({
-    where: { id: userId },
-    data: { ...req.body },
-  });
-  return res.json(user);
-}
 
 

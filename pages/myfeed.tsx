@@ -35,6 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
           customName: true
         },
       },
+      comments : true
     },
   });
   serializing(myfeed)

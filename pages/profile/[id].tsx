@@ -34,7 +34,35 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     });
     const result = await response.json();
     const user = result;
-    console.log("test")
+
+    const handleSubmit = async (event) => {
+
+      event.preventDefault()
+
+      const body = {
+        customLink: event.target.customLink.value,
+        customImage: event.target.customImage.value,
+        customName: event.target.customName.value,
+        bio: event.target.name.value
+      }
+
+
+
+      try {
+      const res = await fetch(`/api/user/${user.id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+      });
+      console.log(await res.json())
+
+      } catch (error) {
+          console.error(error);
+      }
+  
+    }
+
+
     setContent((
       <div className="max-w-lg mx-auto my-10 bg-white p-8 rounded-xl shadow shadow-slate-300">
         <Link href="/">
@@ -51,37 +79,39 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
             </div>
           </div>
         </div> */}
-        <form className="my-10">
+        <form onSubmit={handleSubmit} className="my-10">
                 <div className="flex flex-col space-y-5">
                     <label htmlFor="customLink">
                         <p className="font-medium text-slate-700 pb-2">Custom Link</p>
                         <input
+                            defaultValue={user.customLink}
                             type="text"
                             id="customLink"
                             name="customLink"
                             title="name should be name"
-                            pattern="[a-zA-Z]{2,35}"
-                            className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter a custom link" />
+                            pattern="[a-zA-Z0-9]{2,35}"
+                            className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter string for your custom URL" />
                     </label>
                     <label htmlFor="customImage">
                         <p className="font-medium text-slate-700 pb-2">Image link</p>
                         <input
+                            defaultValue={user.customImage??user.image}
                             type="link"
                             id="customImage"
                             name="customImage"
                             title="name should be name"
                             className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter a custom link" />
                     </label>
-                    <label htmlFor="name">
-                        <p className="font-medium text-slate-700 pb-2">Full Name</p>
+                    <label htmlFor="customName">
+                        <p className="font-medium text-slate-700 pb-2">NickName :</p>
                         <input
                             defaultValue={user.customName??user.name}
                             type="text"
-                            id="name"
-                            name="name"
-                            title="name should be name"
+                            id="customName"
+                            name="customName"
+                            title="customName should be customName"
                             pattern="[a-zA-Z ]{2,35}"
-                            className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter your full name" />
+                            className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter nickname" />
                     </label>
 
                     <label htmlFor="bio">
@@ -92,7 +122,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
                             id="bio"
                             name="bio"
                             title="email should be email"
-                            className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter email address" />
+                            className="w-full py-3 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow" placeholder="Enter little biography" />
                     </label>
                     
                     
@@ -134,7 +164,7 @@ const Profile: React.FC = (props) => {
     const [user,setUser] = useState(props.user)
     const router = useRouter()
     const { data: session } = useSession();
-
+    console.log(session)
     
     useEffect(() => {
       if(!user){
