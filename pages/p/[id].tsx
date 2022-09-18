@@ -41,11 +41,13 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     },
   });
   // UNserializable dateTime object in SRR, idk why ¯\_(ツ)_/¯
-  let date = post.lastModified.toISOString();
-  delete post.lastModified;
-  Object.assign(post,{lastModified : date})
+  if(post.lastModified){
+    let date = post.lastModified.toISOString();
+    delete post.lastModified;
+    Object.assign(post,{lastModified : date})
+  }
   if(post.publishedDate){
-    date = post.publishedDate.toISOString();
+    let date = post.publishedDate.toISOString();
     delete post.publishedDate;
     Object.assign(post,{publishedDate : date})
   }
@@ -179,11 +181,18 @@ const Post: React.FC<PostProps> = (props) => {
           )
         }
         {
+          props.comments && (
+            <div className='flex flex-col mx-2 md:mx-auto w-full my-4 max-w-md md:max-w-2xl '>
+              <h2 className='text-lg font-semibold text-gray-900'>Comments:</h2>
+            </div>
+          )
+        }
+        {
            props.comments.map(el=>
             <div key={el.id} className="flex flex-col bg-white shadow-lg rounded-lg mx-2 md:mx-auto w-full my-4 max-w-md md:max-w-2xl ">
                
                <div className="flex items-start px-4 py-6 w-full">
-               <img className="w-12 h-12 rounded-full object-cover mr-4 shadow" src={author.customImage??author.image} alt="avatar" />
+               <img className="w-12 h-12 rounded-full object-cover mr-4 shadow" src={el.author.customImage??el.author.image} alt="avatar" />
                 <div className="w-full">
                   <p className="text-gray-700">{el.author.customName??el.author.name}</p>
                   <p className="mt-3 text-gray-700 text-sm">

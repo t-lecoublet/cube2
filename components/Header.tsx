@@ -60,7 +60,7 @@ const Header: React.FC = () => {
         <Link href={{
               pathname: "/api/auth/signin",
               query: {
-                callbackUrl: router.pathname
+                callbackUrl: router.asPath
               }
           }}>
           <a className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700">Login</a>
@@ -172,7 +172,7 @@ const Header: React.FC = () => {
                         </a>
                       </Link>
              
-                        <a onClick={()=> {let callbackUrl:any = router.pathname;logout(callbackUrl)}} className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700">
+                        <a onClick={()=> {let callbackUrl:any = router.asPath;logout(callbackUrl)}} className=" inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-sky-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-sky-700">
                           LogOut
                         </a>
                       
