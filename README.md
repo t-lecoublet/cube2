@@ -1,5 +1,4 @@
-TEAMS - RIL 21-2 Voici le sujet de rattrapage pour ceux qui ont eu C ou D en individuel :
-Rattrapage individuel CUBES
+TEAMS - RIL 21-2 Voici le sujet individuel CUBES :
 
 L'objectif de ce projet est de créer un clone de Twitter, le célèbre réseau social.
 
