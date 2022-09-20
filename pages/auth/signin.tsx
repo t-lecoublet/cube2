@@ -56,7 +56,7 @@ export default function signin() {
             </button> 
         </div>
         <div className="w-full flex items-center justify-between py-5">
-                         <p className="text-base font-medium leading-4 px-2.5 text-red-400">Please use Github, Google does not allow non-whitelisted emails </p>
+                         <p className="text-base font-medium leading-4 px-2.5 text-red-400">Please use Github, or Google </p>
         </div>
         <div className="w-full flex items-center justify-between py-5">
                          <hr className="w-full bg-gray-400"/>

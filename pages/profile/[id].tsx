@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { getSession, useSession } from 'next-auth/react';
 import { GetServerSideProps } from 'next';
 import Layout from '../../components/Layout';
@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         customLink: event.target.customLink.value,
         customImage: event.target.customImage.value,
         customName: event.target.customName.value,
-        bio: event.target.name.value
+        bio: event.target.bio.value
       }
 
 
@@ -55,6 +55,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
           body: JSON.stringify(body),
       });
       await res.json()
+      if(res.status == 209){
+        Router.push(("/profile/"+body.customLink));
+      }
 
       } catch (error) {
           console.error(error);
