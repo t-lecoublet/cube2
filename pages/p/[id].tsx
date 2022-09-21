@@ -18,9 +18,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
           name: true,
           email: true,
           image: true,
+          customLink: true,
           customImage: true,
           customName: true,
-          customLink:true
+
         },
       },
       comments : {
@@ -30,6 +31,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
               name: true,
               email: true,
               image: true,
+              customLink: true,
               customImage: true,
               customName: true
           }},
@@ -104,6 +106,7 @@ const Post: React.FC<PostProps> = (props) => {
   }
   const author = props.author;
 
+  console.log(props)
 
 
   return (
@@ -118,7 +121,7 @@ const Post: React.FC<PostProps> = (props) => {
       </div>
         <div className="flex items-start px-4 py-6 w-full" >
             <img className="w-12 h-12 rounded-full object-cover mr-4 shadow" src={author.customImage??author.image} alt="avatar" />
-            <div className="w-full" onClick={()=>{Router.push(`/profile/${author.customLink}`)}}>
+            <div className="w-full" onClick={()=>{Router.push(`/profile/${props.author.customLink}`)}}>
               <div className="cursor-pointer flex items-center justify-between w-full">
                 <a></a>
                 <small className="text-sm text-gray-700">{props.publishedDate?.toString().split('T')[0]}</small>
