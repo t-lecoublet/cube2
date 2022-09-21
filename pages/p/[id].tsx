@@ -106,9 +106,6 @@ const Post: React.FC<PostProps> = (props) => {
   }
   const author = props.author;
 
-  console.log(props)
-
-
   return (
     <Layout>
       

@@ -10,6 +10,7 @@ export type PostProps = {
     image: string;
     customImage: string;
     customName: string;
+    customLink: string;
   } | null;
   content: string;
   published: boolean;
