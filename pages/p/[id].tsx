@@ -19,7 +19,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
           email: true,
           image: true,
           customImage: true,
-          customName: true
+          customName: true,
+          customLink:true
         },
       },
       comments : {
@@ -115,14 +116,14 @@ const Post: React.FC<PostProps> = (props) => {
                 {props.content}
         </p>
       </div>
-        <div className="flex items-start px-4 py-6 w-full">
+        <div className="flex items-start px-4 py-6 w-full" >
             <img className="w-12 h-12 rounded-full object-cover mr-4 shadow" src={author.customImage??author.image} alt="avatar" />
-            <div className="w-full">
-              <div className="flex items-center justify-between w-full">
+            <div className="w-full" onClick={()=>{Router.push(`/profile/${author.customLink}`)}}>
+              <div className="cursor-pointer flex items-center justify-between w-full">
                 <a></a>
                 <small className="text-sm text-gray-700">{props.publishedDate?.toString().split('T')[0]}</small>
               </div>
-              <p className="text-gray-700">By {author.customName??author.name}</p>
+              <p className="cursor-pointer text-gray-700">By {author.customName??author.name}</p>
               
             </div>
 
